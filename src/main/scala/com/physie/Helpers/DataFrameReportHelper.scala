@@ -11,7 +11,7 @@ object DataFrameReportHelper {
     val reportDF = columns.map { colName =>
       val notNullCount = count(when(col(colName).isNotNull, colName)).alias("Pass")
       val nullCount = count(when(col(colName).isNull, colName)).alias("Fail")
-      val totalCount = count(col(colName)).alias("TotalCount")
+      val totalCount = (notNullCount + nullCount).alias("TotalCount")
 
       df.agg(notNullCount, nullCount, totalCount)
         .withColumn("ColumnName", lit(colName))
