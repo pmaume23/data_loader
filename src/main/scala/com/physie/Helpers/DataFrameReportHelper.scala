@@ -2,10 +2,13 @@ package com.physie.Helpers
 
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, count, lit, round, when}
+import org.slf4j.LoggerFactory
 
 object DataFrameReportHelper {
+  val logger = LoggerFactory.getLogger(getClass)
 
   def generateReport(df: DataFrame): DataFrame = {
+    logger.info("Generating report Dataframe")
     val columns = df.columns
 
     val reportDF = columns.map { colName =>
@@ -26,6 +29,7 @@ object DataFrameReportHelper {
 
   // Method to write the report to CSV
   def writeReportToCSV(outputPath: String, df: DataFrame): Unit = {
+    logger.info(s"Writing report Dataframe to CSV at $outputPath")
     df.coalesce(1).write.mode("overwrite").option("header", "true").csv(outputPath)
     val tempDir = new java.io.File(outputPath)
     val tempFile = tempDir.listFiles().filter(_.getName.endsWith(".csv")).head
