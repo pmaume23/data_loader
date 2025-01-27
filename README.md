@@ -32,5 +32,5 @@ This will compile the project and generate a JAR file in the `target` directory.
 
 ## Running the Application
 To run the application, navigate to the project directory and run the following command:
-```./scripts/run_main.sh "<path_to_jar_file>" "name_of_main_class```
+```./scripts/run_main.sh "<path_to_jar_file>" "package_name_of_main_class"```
 
