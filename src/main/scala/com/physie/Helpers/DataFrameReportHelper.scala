@@ -23,4 +23,14 @@ object DataFrameReportHelper {
 
     reportWithPercentagesDF.select("ColumnName", "Pass", "Fail", "PercentagePass", "PercentageFail", "TotalCount")
   }
+
+  // Method to write the report to CSV
+  def writeReportToCSV(outputPath: String, df: DataFrame): Unit = {
+    df.coalesce(1).write.mode("overwrite").option("header", "true").csv(outputPath)
+    val tempDir = new java.io.File(outputPath)
+    val tempFile = tempDir.listFiles().filter(_.getName.endsWith(".csv")).head
+    tempFile.renameTo(new java.io.File(outputPath + ".csv"))
+    tempDir.listFiles().foreach(_.delete())
+    tempDir.delete()
+  }
 }

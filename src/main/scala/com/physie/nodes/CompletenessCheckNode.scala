@@ -7,7 +7,7 @@ class CompletenessCheckNode{
   val spark = SparkParquetHelper.getSparkSession("Stock Transactions")
 
   //Path to the Stock Transactions Parquet file
-  val stockTransactionsPath = "file:///Volumes/Naophy/HDFS/stock_transactions/stock_transactions.parquet"
+  val stockTransactionsPath = "src/main/resources/HDFS/credit_card_transactions/credit_card_transactions.parquet"
 
   //Read the Parquet file
   val stockTransactionDF = SparkParquetHelper.readParquetFile(spark, stockTransactionsPath)
@@ -22,4 +22,7 @@ class CompletenessCheckNode{
   println("Consolidated Report:")
   reportDF.show()
   println("Printed Consolidated Report")
+
+  //Write the report to CSV file
+  DataFrameReportHelper.writeReportToCSV("src/main/outputReports/completenessCheckReport", reportDF)
 }
